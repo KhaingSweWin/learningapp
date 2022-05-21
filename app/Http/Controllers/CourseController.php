@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Course;
+use Response;
+
 
 class CourseController extends Controller
 {
@@ -27,7 +29,7 @@ class CourseController extends Controller
      // $courses->save();
 
      // $courses->delete();
-      $courses=Course::all();
+      $courses=Course::paginate(5);
      // print($courses->name);
       // print($courses);
        
@@ -54,30 +56,28 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate(
-            [
-                'name'=>'required',
-                'description'=>'required',
-                'age'=>'required',
-                'seat'=>'required',
-                'fee'=>'required',
-                'time'=>'required',
-            ],
-            [
-                'name.required'=>'Please fill the name'
-            ]
-            );
-        //
-        //Course::create($request->all());
-        $course=new Course();
-        $course->name=$request->name;
-        $course->description=$request->description;
-        $course->age=$request->age;
-        $course->seat=$request->seat;
-        $course->fee=$request->fee;
-        $course->time=$request->time;
-        $course->save();
-        return redirect()->route('courses.index');
+        
+        $request->validate([
+            'name'=>'required',
+            'age'=>'required',
+            'description'=>'required',
+            'seat'=>['required','digits_between:2,20'],
+            'time'=>'required',
+            'fee'=>'required'
+        ],
+    [
+        'name.required'=>'Please fill the name'
+    ]);
+        $course=Course::create([
+            'name' => $request['name'],
+            'age' => $request['age'],
+            'description' => $request['description'],
+            'seat' => $request['seat'],
+            'time' => $request['time'],
+            'fee' => $request['fee'],
+        ]);
+
+        return response()->json($course); //Response::json($course)
     }
 
     /**
@@ -86,20 +86,23 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Course $course)
     {
         //
+        //$course=Course::find($id);
+       return view('courses.show')->with('course',$course);
+    
+    
     }
-
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Course $course)
     {
-        //
+        return view('courses.edit')->with('course',$course);
     }
 
     /**
@@ -112,6 +115,26 @@ class CourseController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $request->validate([
+            'name'=>'required',
+            'age'=>'required',
+            'description'=>'required',
+            'seat'=>['required','digits_between:2,20'],
+            'time'=>'required',
+            'fee'=>'required'
+        ],
+    [
+        'name.required'=>'Please fill the name'
+    ]);
+    $course=Course::find($id);
+    $course->name=$request->name;
+    $course->description=$request->description;
+    $course->age=$request->age;
+    $course->seat=$request->seat;
+    $course->time=$request->time;
+    $course->fee=$request->fee;
+    $course->save();
+    return redirect()->route('courses.index');
     }
 
     /**
@@ -120,8 +143,10 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Course $course)
     {
         //
+        $course->delete();
+        return redirect()->route('courses.index');
     }
 }

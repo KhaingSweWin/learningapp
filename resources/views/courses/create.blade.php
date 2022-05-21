@@ -38,42 +38,42 @@
                         <label class="form-label"> Name</label>
                         <input type="text" name="name" class="form-control">
                         @error('name')
-                        <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger"> {{ $message }}</span>
                         @enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label"> Description</label>
                         <input type="text" name="description" class="form-control">
                         @error('description')
-                        <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger"> {{ $message }}</span>
                         @enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label"> Age</label>
                         <input type="text" name="age" class="form-control">
                         @error('age')
-                        <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger"> {{ $message }}</span>
                         @enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label"> Seat</label>
-                        <input type="text" name="seat" class="form-control">
+                        <input type="number" name="seat" class="form-control">
                         @error('seat')
-                        <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger"> {{ $message }}</span>
                         @enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label"> Fee </label>
                         <input type="text" name="fee" class="form-control">
                         @error('fee')
-                        <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger"> {{ $message }}</span>
                         @enderror
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Time</label>
                         <input type="text" name="time" class="form-control">
                         @error('time')
-                        <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger"> {{ $message }}</span>
                         @enderror
                     </div>
                     <div class="mb-3">
